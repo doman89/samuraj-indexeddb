@@ -1,5 +1,7 @@
+type GenericObjectID = number | string;
+
 interface GenericObject {
-	id: number | string;
+	id: GenericObjectID;
 }
 
 type Callback = (result: unknown[]) => unknown;
@@ -40,7 +42,7 @@ export class DatabaseManager {
 		createRequest.onerror = () => this.errorHandler(storeName, this.CREATE_OBJECT);
 	}
 
-	public getObject(storeName: string, id: number | string, callback: Callback): void {
+	public getObject(storeName: string, id: GenericObjectID, callback: Callback): void {
 		const transaction = this.database.transaction(storeName, this.READ_MODE);
 		const store = transaction.objectStore(storeName);
 		const getRequest = store.get(id);
@@ -63,7 +65,7 @@ export class DatabaseManager {
 		getAllRequest.onerror = () => this.errorHandler(storeName, this.READ_OBJECT);
 	}
 
-	public deleteObject(storeName: string, id: number | string): void {
+	public deleteObject(storeName: string, id: GenericObjectID): void {
 		const transaction = this.database.transaction(storeName, this.READ_WRITE_MODE);
 		const store = transaction.objectStore(storeName);
 		const addRequest = store.delete(id);
